@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-white: #ffffff;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+}
+
+@layer utilities {
+}
