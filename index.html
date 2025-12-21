@@ -3,9 +3,8 @@
   {% include "src/html/head.html" %}
 
   <body>
-    <main id="mainContent" role="main" class="flex h-screen flex-col items-center justify-center bg-black">
-      <h1 class="text-center text-8xl font-bold text-orange-500">The World Is Ours !</h1>
-      <p class="text-center text-5xl font-bold text-white">Let’s build.</p>
-    </main>
+    {% include "src/html/header.html" %}
+    <main id="mainContent">{% include "src/html/section-top.html" %} {% include "src/html/section-ad.html" %} {% include "src/html/section-down.html" %}</main>
+    {% include "src/html/footer.html" %}
   </body>
 </html>
