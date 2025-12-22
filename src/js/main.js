@@ -1,12 +1,18 @@
 import '@/styles/main.scss';
 import { initBannerController } from '@/js/modules/banner-controller.js';
+import { initEmblaCarousel } from '@/js/modules/carousel-controller.js';
 
-let cleanup;
+let bannerCleanup;
+let carouselCleanup;
 
 document.addEventListener('DOMContentLoaded', () => {
-  cleanup = initBannerController();
+  carouselCleanup = initEmblaCarousel();
+  bannerCleanup = initBannerController();
 });
 
 if (import.meta.hot) {
-  import.meta.hot.dispose(() => cleanup?.());
+  import.meta.hot.dispose(() => {
+    carouselCleanup?.();
+    bannerCleanup?.();
+  });
 }

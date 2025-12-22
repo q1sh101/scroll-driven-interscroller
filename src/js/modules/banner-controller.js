@@ -57,13 +57,32 @@ export function initBannerController() {
   }
 
   const observer = new IntersectionObserver(handleIntersection, { threshold: 0 });
+  bannerAd.style.transition = 'none';
 
+  const shouldBeHidden = window.scrollY + window.innerHeight > adSection.offsetTop;
+
+  if (shouldBeHidden) {
+    bannerAd.classList.remove('translate-y-0');
+    bannerAd.classList.add('translate-y-full');
+    fixedBanner.classList.add('pointer-events-none');
+    isBannerVisible = false;
+  } else {
+    bannerAd.classList.remove('translate-y-full');
+    bannerAd.classList.add('translate-y-0');
+    fixedBanner.classList.remove('pointer-events-none');
+    isBannerVisible = true;
+  }
+
+  bannerAd.classList.remove('opacity-0');
+  updateScrollPromptOpacity();
+  scrollPrompt.classList.remove('opacity-0');
   observer.observe(adSection);
+
   window.addEventListener('scroll', updateScrollPromptOpacity, { passive: true });
   window.addEventListener('load', updateScrollPromptOpacity, { once: true });
-
-  bannerAd.classList.add('translate-y-0');
-  updateScrollPromptOpacity();
+  requestAnimationFrame(() => {
+    bannerAd.style.transition = '';
+  });
 
   if (closeButton) {
     closeButton.addEventListener('click', handleCloseClick);
