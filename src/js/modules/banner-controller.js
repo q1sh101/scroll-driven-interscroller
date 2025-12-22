@@ -3,6 +3,7 @@ export function initBannerController() {
   const fixedBanner = document.getElementById('fixedBanner');
   const bannerAd = document.getElementById('fixedBannerAd');
   const scrollPrompt = fixedBanner?.querySelector('[data-scroll-prompt]');
+  const closeButton = document.getElementById('closeAdButton');
 
   if (!adSection || !fixedBanner || !bannerAd || !scrollPrompt) return;
 
@@ -50,6 +51,11 @@ export function initBannerController() {
     }
   }
 
+  function handleCloseClick(e) {
+    e.preventDefault();
+    bannerAd.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+  }
+
   const observer = new IntersectionObserver(handleIntersection, { threshold: 0 });
 
   observer.observe(adSection);
@@ -59,9 +65,16 @@ export function initBannerController() {
   bannerAd.classList.add('translate-y-0');
   updateScrollPromptOpacity();
 
+  if (closeButton) {
+    closeButton.addEventListener('click', handleCloseClick);
+  }
+
   return () => {
     observer.disconnect();
     window.removeEventListener('scroll', updateScrollPromptOpacity);
     window.removeEventListener('load', updateScrollPromptOpacity);
+    if (closeButton) {
+      closeButton.removeEventListener('click', handleCloseClick);
+    }
   };
 }
