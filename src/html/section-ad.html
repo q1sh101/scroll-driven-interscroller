@@ -1,5 +1,8 @@
 <section id="adSection" class="flex h-screen flex-col items-center justify-center bg-orange-100" aria-label="Advertisement content">
   <div class="fixed top-0 left-0 z-10 flex h-screen w-full flex-col items-center justify-center overflow-hidden">
+    <div id="countdownOverlay" class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-black/35 text-6xl font-bold text-white opacity-0" aria-hidden="true">
+      <span data-countdown-value>5</span>
+    </div>
     <!-- DEMO -->
     {% include "src/html/ad-slider.html" %}
     <!-- DEMO /. -->
