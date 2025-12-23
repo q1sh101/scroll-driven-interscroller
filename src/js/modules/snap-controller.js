@@ -5,6 +5,10 @@ export function initSnapController({ onSnapped } = {}) {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let scrollTimer = null;
   let hasSnapped = false;
+  let isSnapping = false;
+  let snapTargetY = 0;
+  let settleRaf = 0;
+  let settleAttempts = 0;
 
   function notifySnapped() {
     if (hasSnapped) return;
@@ -12,7 +16,25 @@ export function initSnapController({ onSnapped } = {}) {
     onSnapped?.();
   }
 
+  function settle() {
+    if (++settleAttempts > 120) {
+      isSnapping = false;
+      settleRaf = 0;
+      return;
+    }
+    const current = window.scrollY;
+    if (Math.abs(current - snapTargetY) <= 2) {
+      isSnapping = false;
+      settleRaf = 0;
+      onSnapped?.();
+      return;
+    }
+    settleRaf = requestAnimationFrame(settle);
+  }
+
   function snapToSection() {
+    if (hasSnapped) return;
+
     const rect = adSection.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
 
@@ -31,10 +53,17 @@ export function initSnapController({ onSnapped } = {}) {
       return;
     }
 
+    hasSnapped = true;
+    snapTargetY = target;
+    isSnapping = true;
+    settleAttempts = 0;
+
     window.scrollTo({
       top: target,
       behavior: reducedMotion ? 'auto' : 'smooth',
     });
+
+    settleRaf = requestAnimationFrame(settle);
   }
 
   function checkAligned() {
@@ -56,6 +85,7 @@ export function initSnapController({ onSnapped } = {}) {
   }
 
   function handleScroll() {
+    if (isSnapping) return;
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(snapToSection, 150);
   }
@@ -65,6 +95,7 @@ export function initSnapController({ onSnapped } = {}) {
 
   return () => {
     clearTimeout(scrollTimer);
+    if (settleRaf) cancelAnimationFrame(settleRaf);
     window.removeEventListener('scroll', handleScroll);
   };
 }

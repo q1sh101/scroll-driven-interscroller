@@ -45,11 +45,14 @@ export function initCountdownController({ seconds = 5 } = {}) {
   }
 
   function unlockScroll() {
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
     document.body.style.position = previousBodyStyles.position;
     document.body.style.top = previousBodyStyles.top;
     document.body.style.width = previousBodyStyles.width;
     document.body.style.paddingRight = previousBodyStyles.paddingRight;
     window.scrollTo(0, scrollY);
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
   }
 
   function stop() {

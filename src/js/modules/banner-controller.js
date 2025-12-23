@@ -21,7 +21,7 @@ export function initBannerController() {
       return;
     }
 
-    const triggerPoint = adSection.offsetTop - window.innerHeight;
+    const triggerPoint = adSection.getBoundingClientRect().top + window.scrollY - window.innerHeight;
 
     if (triggerPoint <= 0) {
       scrollPrompt.style.opacity = 0;
@@ -59,7 +59,7 @@ export function initBannerController() {
   const observer = new IntersectionObserver(handleIntersection, { threshold: 0 });
   bannerAd.style.transition = 'none';
 
-  const shouldBeHidden = window.scrollY + window.innerHeight > adSection.offsetTop;
+  const shouldBeHidden = window.scrollY + window.innerHeight > adSection.getBoundingClientRect().top + window.scrollY;
 
   if (shouldBeHidden) {
     bannerAd.classList.remove('translate-y-0');
