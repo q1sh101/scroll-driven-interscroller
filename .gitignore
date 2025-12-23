@@ -2,6 +2,5 @@ node_modules
 yarn.lock
 pnpm-lock.yaml
 
-dist
 .DS_Store
 *.log
