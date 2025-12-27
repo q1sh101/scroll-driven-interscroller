@@ -1,6 +1,6 @@
 import '@/styles/main.scss';
 import { initBannerController } from '@/js/modules/banner-controller.js';
-import { initEmblaCarousel } from '@/js/modules/carousel-controller.js';
+import { initCarousel } from '@/js/modules/carousel-controller.js';
 import { initSnapController } from '@/js/modules/snap-controller.js';
 import { initCountdownController } from '@/js/modules/countdown-controller.js';
 
@@ -10,9 +10,9 @@ let snapCleanup;
 let countdownCleanup;
 
 document.addEventListener('DOMContentLoaded', () => {
-  carouselCleanup = initEmblaCarousel();
+  carouselCleanup = initCarousel();
   bannerCleanup = initBannerController();
-  const countdown = initCountdownController({ seconds: 5 });
+  const countdown = initCountdownController({ seconds: 3 });
   countdownCleanup = countdown?.cleanup;
   snapCleanup = initSnapController({
     onSnapped: () => countdown?.start(),

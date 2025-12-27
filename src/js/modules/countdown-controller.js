@@ -1,4 +1,4 @@
-export function initCountdownController({ seconds = 5 } = {}) {
+export function initCountdownController({ seconds = 3 } = {}) {
   const overlay = document.getElementById('countdownOverlay');
   const value = overlay?.querySelector('[data-countdown-value]');
 
